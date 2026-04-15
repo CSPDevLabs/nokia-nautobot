@@ -1,0 +1,111 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-nautobot
+spec:
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      securityContext:
+        seccompProfile:
+          type: "RuntimeDefault"
+      containers:
+      - name: postgres
+        image: bitnamilegacy/postgresql:15.4.0-debian-11-r45
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false # As per your requirement
+          capabilities:
+            drop: ["ALL"]
+        env:
+        - name: POSTGRESQL_USERNAME
+          value: "nautobot"
+        - name: POSTGRESQL_DATABASE
+          value: "nautobot"
+        - name: POSTGRESQL_PASSWORD
+          value: "nautobot" # Change this
+        ports:
+        - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: postgres
+  ports:
+  - port: 5432
+    targetPort: 5432
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-nautobot
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        fsGroup: 1001 
+        seccompProfile:
+          type: "RuntimeDefault"
+      containers:
+      - name: redis
+        image: bitnamilegacy/redis:7.4.2-debian-12-r9
+        imagePullPolicy: Always
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsUser: 1001
+          capabilities:
+            drop: ["ALL"]
+        env:
+        - name: REDIS_PASSWORD
+          value: "nautobot"
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "no"
+        # - name: REDIS_USERNAME
+        #   value: "nautobot"          
+        volumeMounts:
+        - name: redis-tmp
+          mountPath: /opt/bitnami/redis/tmp
+        - name: redis-etc
+          mountPath: /opt/bitnami/redis/etc
+        - name: redis-logs
+          mountPath: /opt/bitnami/redis/logs
+        - name: redis-data
+          mountPath: /bitnami/redis/data
+      volumes:
+      - name: redis-tmp
+        emptyDir: {}
+      - name: redis-etc
+        emptyDir: {}
+      - name: redis-logs
+        emptyDir: {}
+      - name: redis-data
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-service
+spec:
+  selector:
+    app: redis
+  ports:
+  - port: 6379
+    targetPort: 6379

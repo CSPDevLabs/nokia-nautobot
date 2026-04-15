@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lightweight-linux
+  labels:
+    app: lightweight-linux
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lightweight-linux
+  template:
+    metadata:
+      labels:
+        app: lightweight-linux
+    spec:
+      containers:
+        - name: lightweight-linux
+          image: ghcr.io/srl-labs/network-multitool
+          command: ["sh", "-c"]
+          args: ["sleep infinity"] # Keeps the container running indefinitely
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "128Mi"
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
