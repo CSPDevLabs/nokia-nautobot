@@ -70,7 +70,7 @@ Once Nautobot is deployed, use the following commands to access the web interfac
 ### 5.1. Get the Nautobot URL
 
 ```bash
-kubectl port-forward --namespace default svc/nautobot-default 8080:80
+kubectl port-forward --namespace default svc/nautobot-default --address 0.0.0.0 8080:80
 ```
 
 After running the kubectl port-forward command, open your web browser and navigate to `http://<localhost-or-your-host-ip>:8080`
