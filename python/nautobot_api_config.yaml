@@ -1,0 +1,126 @@
+# nautobot_api_config.yaml
+api_endpoints:
+  # Extras App
+  statuses:
+    path: "/api/extras/statuses/"
+    model_name: "extras.status"
+    get_params:
+      - name
+    create_params:
+      - name
+      - slug
+      - color
+      - content_types
+
+  # DCIM App
+  location_types:
+    path: "/api/dcim/location-types/"
+    model_name: "dcim.location_type"
+    get_params:
+      - name
+    create_params:
+      - name
+      - slug
+
+  locations:
+    path: "/api/dcim/locations/"
+    model_name: "dcim.location"
+    get_params:
+      - name
+    create_params:
+      - name
+      - slug
+      - location_type
+      - status
+
+  manufacturers:
+    path: "/api/dcim/manufacturers/"
+    model_name: "dcim.manufacturer"
+    get_params:
+      - name
+    create_params:
+      - name
+      - slug
+
+  platforms:
+    path: "/api/dcim/platforms/"
+    model_name: "dcim.platform"
+    get_params:
+      - name
+    create_params:
+      - name
+      - slug
+      - manufacturer
+
+  # device_roles:
+  #   path: "/api/dcim/device-roles/"
+  #   model_name: "dcim.device_role"
+  #   get_params:
+  #     - name
+  #   create_params:
+  #     - name
+  #     - slug
+  #     - color
+
+  device_types:
+    path: "/api/dcim/device-types/"
+    model_name: "dcim.device_type"
+    get_params:
+      - model # Note: pynautobot uses 'model', raw API uses 'model' or 'slug' for lookup
+    create_params:
+      - manufacturer
+      - model
+      - slug
+      - part_number
+
+  devices:
+    path: "/api/dcim/devices/"
+    model_name: "dcim.device"
+    get_params:
+      - name
+    create_params:
+      - name
+      - device_type
+      - device_role
+      - platform
+      - location
+      - status
+      - serial
+
+  interfaces:
+    path: "/api/dcim/interfaces/"
+    model_name: "dcim.interface"
+    get_params:
+      - device_id
+      - name
+    create_params:
+      - device
+      - name
+      - type
+      - enabled
+      - mtu
+      - mac_address
+
+  ip_addresses:
+    path: "/api/ipam/ip-addresses/"
+    model_name: "ipam.ipaddress"
+    get_params:
+      - address
+    create_params:
+      - address
+      - assigned_object_type
+      - assigned_object_id
+      - status
+
+  cables:
+    path: "/api/dcim/cables/"
+    model_name: "dcim.cable"
+    get_params:
+      - termination_a_id
+      - termination_b_id
+    create_params:
+      - termination_a_type
+      - termination_a_id
+      - termination_b_type
+      - termination_b_id
+      - status
