@@ -1,5 +1,5 @@
 ```bash
-python populate_nautobot_from_clab_sros_only.py \
+python nautobot_population.py \
     ../../nok-clabs/nok-dia/topo.clab.yaml \
     --nautobot-url "https://nautobot-host:8443" \
     --nautobot-token $NAUTOBOT_TOKEN \
