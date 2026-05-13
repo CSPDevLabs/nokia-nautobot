@@ -1,0 +1,5 @@
+---
+nokia_devices:
+  platform: nokia_sros
+  data:
+    snmp_community: "public"

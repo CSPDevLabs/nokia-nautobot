@@ -63,6 +63,12 @@ Install Nautobot using your custom values-ext-db.yaml file.
 helm install nautobot nautobot/nautobot -f values-ext-db.yaml
 ```
 
+### 4.4. Install Credentials (extraEnvVarsSecret)
+
+```bash
+kubectl apply -f nokia-secrets.yaml
+```
+
 ## 5. Accessing Nautobot
 
 Once Nautobot is deployed, use the following commands to access the web interface and retrieve credentials.
@@ -93,4 +99,93 @@ echo "Secret Key: $(kubectl get secret --namespace default nautobot-env -o jsonp
 ## 6. Configuration Details (values-ext-db.yaml)
 
 The `values-ext-db.yaml` file contains critical overrides for resource allocation, external database connections, and Nautobot's internal configuration.
+
+## 8. Troubleshooting
+
+### 8.1 Checking reachibility to an IP and port
+Execute: `kubectl exec -ti <nautobot-pod> -- nautobot-server shell_plus`
+
+
+```python
+import socket
+
+def is_reachable(ip, port=830, timeout=2):
+    """
+    Checks if a specific port on an IP is reachable.
+    Common ports: 830 (NetConf), 22 (SSH).
+    """
+    try:
+        # socket.create_connection handles the lookup and connection attempt
+        with socket.create_connection((ip, port), timeout=timeout):
+            print(f"✅ {ip}:{port} is REACHABLE.")
+            return True
+    except (socket.timeout, ConnectionRefusedError, OSError):
+        print(f"❌ {ip}:{port} is NOT reachable.")
+        return False
+
+# Test it
+is_reachable('172.18.0.12', port=830)  # Test reacheability to NC port
+```
+
+### 8.2 Test Env Vars
+
+Execute: `kubectl exec -ti <nautobot-pod> -- nautobot-server nbshell`
+
+```python
+import os
+print(os.getenv('NOKIA_NETCONF_USER'))
+```
+
+### 8.3 Checking Secret Group
+
+```python
+from nautobot.extras.models import SecretsGroup
+from nautobot.extras.choices import SecretsGroupAccessTypeChoices, SecretsGroupSecretTypeChoices
+
+group_name = 'nokia-sros-secret'
+group = SecretsGroup.objects.get(name=group_name)
+
+mapping_nc = group.secrets_group_associations.filter(
+    access_type=SecretsGroupAccessTypeChoices.TYPE_NETCONF,
+    secret_type=SecretsGroupSecretTypeChoices.TYPE_PASSWORD
+).first()
+
+mapping_ssh = group.secrets_group_associations.filter(
+    access_type=SecretsGroupAccessTypeChoices.TYPE_SSH,
+    secret_type=SecretsGroupSecretTypeChoices.TYPE_PASSWORD
+).first()
+
+if mapping_nc:
+    secret = mapping_nc.secret
+    print(f"✅ Group is using: {secret.name} (ID: {secret.id}) for NETCONF")
+    print(f"✅ Provider: {secret.provider}")
+    
+    # Check if the environment variable is actually readable
+    val = secret.get_value()
+    print(f"✅ Resolved Valuefor NETCONF: {val if val else 'MISSING/EMPTY'} for NETCONF")
+else:
+    print(f"❌ No NETCONF Password mapping_nc found.")
+
+if mapping_ssh:
+    secret = mapping_ssh.secret
+    print(f"✅ Group is using: {secret.name} (ID: {secret.id}) for SSH")
+    print(f"✅ Provider: {secret.provider} for SSH")
+    
+    # Check if the environment variable is actually readable
+    val = secret.get_value()
+    print(f"✅ Resolved Value for SSH: {val if val else 'MISSING/EMPTY'}")
+else:
+    print(f"❌ No SSH Password mapping_nc found.")
+```    
+
+### 8.4 Check drivers
+
+```python
+from nautobot.dcim.models import Platform
+for platform in Platform.objects.all():
+    print(f"Platform: {platform.name}")
+    print(f"  Network Driver: {platform.network_driver}")
+    print(f"  Network Driver Mappings: {platform.network_driver_mappings}")
+    print("-" * 30)
+```
 

@@ -1,0 +1,955 @@
+show system information
+```
+A:admin@sr-2se-1-a# show system information 
+
+===============================================================================
+System Information
+===============================================================================
+System Name            : sr-2se-1-a
+System Type            : 7750 SR-2se
+Chassis Topology       : Standalone
+System Version         : C-25.10.R1
+System Contact         : 
+System Location        : 
+System Coordinates     : 
+System Active Slot     : A
+System Up Time         : 4 days, 04:13:39.97 (hr:min:sec)
+System Up Time (64-bit): 4 days, 04:13:39.97 (hr:min:sec)
+ 
+Configuration Mode Cfg : model-driven
+Configuration Mode Oper: model-driven
+Last Mode Changed      : 2026/04/28 19:44:13 Duration: 0d 00:00:00
+ 
+SNMP Port              : 161
+SNMP Engine ID         : 0000197f00001cf106000000
+SNMP Engine Boots      : 1
+SNMP Max Message Size  : 9216
+SNMP Max Bulk Duration : N/A
+SNMP Admin State       : Enabled
+SNMP Oper State        : Enabled
+SNMP Index Boot Status : Persistent
+SNMP Sync State        : OK
+ 
+Tel/Tel6/SSH/FTP Admin : Disabled/Disabled/Enabled/Disabled
+Tel/Tel6/SSH/FTP Oper  : Down/Down/Up/Down
+ 
+BOF Source             : cf3:
+Image Source           : primary
+Config Source          : N/A
+Last Booted Config File: N/A
+Last Boot Cfg Version  : 2026-02-12T17:10:13.9Z by admin from 172.23.20.1
+Last Boot Config Header: # TiMOS-C-25.10.R2 cpm/x86_64 Nokia 7750 SR
+                         Copyright (c) 2000-2025 Nokia. # All rights reserved.
+                          All use subject to applicable license agreements. #
+                         Built on Wed Dec 17 21:07:16 UTC 2025 by builder in /
+                         builds/2510B/R2/panos # Configuration format version
+                         25.10 revision 0 # Generated 2026-02-12T17:10:13.9Z
+                         by admin from 172.23.20.1
+Last Boot Index Version: 2026-02-12T17:10:13.9Z by admin from 172.23.20.1
+Last Boot Index Header : # TiMOS-C-25.10.R2 cpm/x86_64 Nokia 7750 SR
+                         Copyright (c) 2000-2025 Nokia. # All rights reserved.
+                          All use subject to applicable license agreements. #
+                         Built on Wed Dec 17 21:07:16 UTC 2025 by builder in /
+                         builds/2510B/R2/panos # Configuration format version
+                         25.10 revision 0 # Generated 2026-02-12T17:10:13.9Z
+                         by admin from 172.23.20.1
+Last Saved Config      : cf3:\config.cfg
+Time Last Saved        : 2026/04/29 20:18:51
+Changes Since Last Save: No
+User Last Modified     : admin
+Max Cfg/BOF Backup Rev : 50
+Cfg-OK Script          : N/A
+Cfg-OK Script Status   : not used
+Cfg-Fail Script        : N/A
+Cfg-Fail Script Status : not used
+ 
+IPv4 autoconfiguration : Disabled
+IPv6 autoconfiguration : Disabled
+Management IPv4 Addr   : 172.23.20.101/24
+Management IPv6 Addr   : fe80::ec02:a3ff:fe52:6e8f/64
+Primary DNS Server     : N/A
+Secondary DNS Server   : N/A
+Tertiary DNS Server    : N/A
+DNS Domain             : (Not Specified)
+DNS Resolve Preference : ipv6-first
+DNSSEC AD Validation   : False
+DNSSEC Response Control: drop
+BOF Static Routes      :  
+  To                   Next Hop            
+  0.0.0.0/0            172.23.20.1         
+ 
+ 
+ICMP Vendor Enhancement: Disabled
+EFM OAM Grace Tx Enable: False
+EFM OAM Dying Gasp Rst : Disabled
+ 
+System Reboot Required : No
+ 
+Last Reboot Reason     : other
+===============================================================================
+```
+show version:
+```            
+TiMOS-C-25.10.R1 cpm/x86_64 Nokia 7750 SR Copyright (c) 2000-2025 Nokia.
+All rights reserved. All use subject to applicable license agreements.
+Built on Thu Oct 30 21:18:22 UTC 2025 by builder in /builds/2510B/R1/panos
+```
+
+show system lldp:
+```
+===============================================================================
+LLDP Configuration
+===============================================================================
+Transmit Interval      : 30
+Hold Multiplier        : 4
+Reinit Delay           : 2
+Notification Interval  : 5
+Tx Credit Max          : 5
+Message Fast Tx        : 1
+Message Fast Tx Init   : 4
+Admin Enabled          : True
+
+-------------------------------------------------------------------------------
+LLDP System Information 
+-------------------------------------------------------------------------------
+Chassis Id Subtype     : 4
+Chassis Id             : 1c:f1:06:00:00:00
+System Name            : sr-2se-1-a
+System Description     : TiMOS-C-25.10.R1 cpm/x86_64 Nokia 7750 SR Copyright
+                         (c) 2000-2025 Nokia.
+                         All rights reserved. All use subject to applicable
+                         license agreements.
+                         Built on Thu Oct 30 21:18:22 UTC 2025 by builder in /
+                         builds/2510B/R1/panos
+Capabilities Supported : bridge router 
+Capabilities Enabled   : bridge router 
+
+-------------------------------------------------------------------------------
+LLDP Destination Addresses 
+-------------------------------------------------------------------------------
+Index 1                : 01:80:c2:00:00:0e
+Index 2                : 01:80:c2:00:00:03
+Index 3                : 01:80:c2:00:00:00
+
+-------------------------------------------------------------------------------
+LLDP Remote Statistics 
+-------------------------------------------------------------------------------
+Last Change Time       : 04/28/2026 19:44:13
+Rem Table Inserts      : 0
+Rem Table Deletes      : 0
+Rem Table Drops        : 0
+Rem Table Ageouts      : 0
+
+-------------------------------------------------------------------------------
+LLDP System Management Addresses 
+-------------------------------------------------------------------------------
+Address SubType        : 1 (IPv4)
+Address                : 172.23.20.101
+Address If SubType     : 1
+Address If Id          : 0
+Address OID            : .1.3.6.1.4.1.6527.1.3.44
+
+Address SubType        : 1 (IPv4)
+Address                : 192.0.2.1
+Address If SubType     : 2
+Address If Id          : 1
+Address OID            : .1.3.6.1.4.1.6527.1.3.44
+
+Address SubType        : 2 (IPv6)
+Address                : fe80::ec02:a3ff:fe52:6e8f
+Address If SubType     : 1
+Address If Id          : 0
+Address OID            : .1.3.6.1.4.1.6527.1.3.44
+
+===============================================================================
+```
+
+show chassis:
+``` 
+===============================================================================
+System Information
+===============================================================================
+  Name                              : sr-2se-1-a
+  Type                              : 7750 SR-2se
+  Chassis Topology                  : Standalone
+  Location                          : (Not Specified)
+  Coordinates                       : (Not Specified)
+  CLLI code                         :           
+  Number of slots                   : 4
+  Oper number of slots              : 4
+  Num of faceplate ports/connectors : 36
+  Num of physical ports             : 4
+  Critical LED state                : Off
+  Major LED state                   : Off
+  Minor LED state                   : Off
+  Over Temperature state            : OK
+  Base MAC address                  : 1c:f1:06:00:00:00
+  FP Generations                    : FP5
+  System Profile                    : profile-a
+
+===============================================================================
+Chassis Summary
+===============================================================================
+Chassis   Role                Status
+-------------------------------------------------------------------------------
+1         Standalone          up
+===============================================================================
+```
+
+
+show system license:                    
+```
+===============================================================================
+System License
+===============================================================================
+License status : monitoring, valid license record
+Time remaining : 77 days
+-------------------------------------------------------------------------------
+License name   : NOKIA BELL NV
+License uuid   : 00000000-0000-0000-0000-000000000000
+Machine uuid   : 37383638-3330-4d32-3239-303330344a42
+License desc   : Standard
+License prod   : SR-SIM
+License sros   : TiMOS-[BC]-25.*
+Current date   : Sun May 03 00:09:14 UTC 2026
+Issue   date   : Fri Jul 18 13:59:56 UTC 2025
+Start   date   : Fri Jul 18 00:00:01 UTC 2025
+End     date   : Sat Jul 18 23:59:59 UTC 2026
+===============================================================================
+```
+
+
+show router interface: 
+```
+
+===============================================================================
+Interface Table (Router: Base)
+===============================================================================
+Interface-Name                   Adm       Opr(v4/v6)  Mode    Port/SapId
+   IP-Address                                                  PfxState
+-------------------------------------------------------------------------------
+ies-100                          Up        Up/Down     IES     1/x1/1/c10/1
+   1.1.1.254/24                                                n/a
+ies-300                          Up        Up/Down     IES     rvpls
+   198.18.1.2/29                                               n/a
+system                           Up        Up/Down     Network system
+   192.0.2.1/32                                                n/a
+to-core2                         Up        Up/Down     Network lag-1
+   Unnumbered If[system]                                       n/a
+to-ixr-e2-11                     Up        Up/Down     Network 1/x1/1/c3/1
+   Unnumbered If[system]                                       n/a
+-------------------------------------------------------------------------------
+Interfaces : 5
+===============================================================================
+
+[/]
+```
+show router interface detail:
+``` 
+
+===============================================================================
+Interface Table (Router: Base)
+===============================================================================
+ 
+-------------------------------------------------------------------------------
+Interface
+-------------------------------------------------------------------------------
+If Name          : ies-100
+Admin State      : Up                   Oper (v4/v6)      : Up/Down
+Down Reason V6   : ifProtoOperDown
+Protocols        : None
+IP Addr/mask     : 1.1.1.254/24         Address Type      : Primary
+IGP Inhibit      : Disabled             Broadcast Address : Host-ones
+HoldUp-Time      : 0                    Track Srrp Inst   : 0
+-------------------------------------------------------------------------------
+Details
+-------------------------------------------------------------------------------
+Description      : (Not Specified)
+If Index         : 5                    Virt. If Index    : 5
+Last Oper Chg    : 04/28/2026 19:44:45  Global If Index   : 257
+Mon Oper Grp     : None                 
+Srrp En Rtng     : Disabled             Hold time         : N/A
+MACSec           : N/A
+SAP Id           : 1/x1/1/c10/1
+TOS Marking      : Untrusted            If Type           : IES
+SNTP B.Cast      : False                IES ID            : 100
+MAC Address      : aa:c1:ab:33:75:15    Mac Accounting    : Disabled
+Ingress stats    : Disabled             IPv6 DAD          : Enabled
+ARP Timeout      : 14400s               IPv6 Nbr ReachTime: 30s
+ARP Retry Timer  : 5000ms               IPv6 stale time   : 14400s
+ARP Limit        : Disabled             IPv6 Nbr Limit    : Disabled
+ARP Threshold    : Disabled             IPv6 Nbr Threshold: Disabled
+ARP Limit Log On*: Disabled             IPv6 Nbr Log Only : Disabled
+ARP Learn Unsoli*: Disabled             ND Learn Unsolici*: None
+ARP Proactive Re*: Disabled             ND Proactive Refr*: None
+TCP MSS V4       : 0                    TCP MSS V6        : 0
+IP MTU           : (default)            
+IP Oper MTU      : 1500                 
+ARP Populate     : Disabled             Host Conn Verify  : Disabled
+SHCV pol IPv4    : None
+Cflowd (unicast) : None                 Cflowd (multicast): None
+LdpSyncTimer     : None                 
+LSR Load Balance : system               
+EGR Load Balance : both                 
+Vas If Type      : none                 
+TEID Load Balance: Disabled             
+SPI Load Balance : Disabled             
+uRPF Chk         : disabled             
+uRPF Ipv6 Chk    : disabled             
+uRPF Select VPRN : False                
+PTP HW Assist    : Disabled             
+Rx Pkts          : 0                    Rx Bytes          : 0
+Rx V4 Pkts       : N/A                  Rx V4 Bytes       : N/A
+Rx V4 Help. Pkts : 0                    Rx V4 Help. Bytes : 0
+Rx V6 Pkts       : N/A                  Rx V6 Bytes       : N/A
+Tx Pkts          : 0                    Tx Bytes          : 0
+Tx V4 Pkts       : 0                    Tx V4 Bytes       : 0
+Tx V4 Discard Pk*: 0                    Tx V4 Discard Byt*: 0
+Tx V6 Pkts       : 0                    Tx V6 Bytes       : 0
+Tx V6 Discard Pk*: 0                    Tx V6 Discard Byt*: 0
+Tx DBcast Dis. P*: 0                    Tx DBcast Dis. By*: 0
+Mpls Rx Pkts     : 0                    Mpls Rx Bytes     : 0
+Mpls Tx Pkts     : 0                    Mpls Tx Bytes     : 0
+GRE Termination  : Disabled             
+V6 GRE Terminate : Disabled             
+Inter-AS selective ILM untrusted      : Disabled
+Untrusted default forwarding          : forward
+OperDCpuProtPlcy : N/A                  
+IP-Helper Address: Disabled             
+Ingress destination class lookup      : Disabled
+
+Proxy ARP Details
+Rem Proxy ARP    : Disabled             Local Proxy ARP   : Disabled
+Policies         : none                 
+
+Proxy Neighbor Discovery Details
+Local Pxy ND     : Disabled             
+Policies         : none                 
+
+DHCP no local server
+
+DHCP Details
+Description  : (Not Specified)
+Admin State      : Down                 Lease Populate    : 0
+Gi-Addr          : 1.1.1.254*           Gi-Addr as Src Ip : Disabled
+* = inferred gi-address from interface IP address
+
+Gi-Addr in rls   : No                   
+Action           : Keep                 Trusted           : Disabled
+
+DHCP Proxy Details
+Admin State      : Down                 
+Lease Time       : N/A                  
+Emul. Server     : Not configured       
+
+DHCP Relay Proxy Details
+Relay ucast      : none                 
+Siaddr ovr       : N/A                  
+FrcRnw w/o lease : not-allowed          
+
+Subscriber Authentication Details
+Auth Policy      : None                 
+
+DHCP6 Relay Details
+Description      : (Not Specified)
+Admin State      : Down                 Lease Populate    : 0
+Oper State       : Down                 Nbr Resolution    : Disabled
+If-Id Option     : None                 Remote Id         : Disabled
+Src Addr         : Not configured
+Python plcy      : (Not Specified)      
+Rcnfgr w/o lease : not-allowed          
+
+DHCP6 Server Details
+Admin State      : Down                 Max. Lease States : 8000
+
+ISA Tunnel redundant next-hop information
+Static Next-Hop  :                      
+Dynamic Next-Hop :                      
+
+ICMP Details
+Redirects        : Number - 100         Time (seconds)   - 10   
+Unreachables     : Number - 100         Time (seconds)   - 10   
+TTL Expired      : Number - 100         Time (seconds)   - 10   
+Parameter Problem: Number - 100         Time (seconds)   - 10   
+ICMP Mask Reply  : True
+
+ICMPv6 Details
+Packet Too Big   : Number - 100         Time (seconds)   - 10   
+Parameter Problem: Number - 100         Time (seconds)   - 10   
+Redirects        : Number - 100         Time (seconds)   - 10   
+Time Exceeded    : Number - 100         Time (seconds)   - 10   
+Unreachables     : Number - 100         Time (seconds)   - 10   
+
+IPCP Address Extension Details
+Peer IP Addr     : Not configured       
+Peer Pri DNS Addr: Not configured       
+Peer Sec DNS Addr: Not configured       
+
+Network Domains Associated
+default
+
+-------------------------------------------------------------------------------
+Admin Groups
+-------------------------------------------------------------------------------
+No Matching Entries
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Srlg Groups
+-------------------------------------------------------------------------------
+No Matching Entries
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+QoS Queue-Group Redirection Details
+-------------------------------------------------------------------------------
+Ingress FP QGrp  : (none)               Egress Port QGrp  : (none)
+Ing FP QGrp Inst : (none)               Egr Port QGrp Inst: (none)
+ 
+-------------------------------------------------------------------------------
+Interface
+-------------------------------------------------------------------------------
+If Name          : ies-300
+Admin State      : Up                   Oper (v4/v6)      : Up/Down
+Down Reason V6   : ifProtoOperDown
+Protocols        : None
+IP Addr/mask     : 198.18.1.2/29        Address Type      : Primary
+IGP Inhibit      : Disabled             Broadcast Address : Host-ones
+HoldUp-Time      : 0                    Track Srrp Inst   : 0
+-------------------------------------------------------------------------------
+Details
+-------------------------------------------------------------------------------
+Description      : (Not Specified)
+If Index         : 4                    Virt. If Index    : 4
+Last Oper Chg    : 04/28/2026 19:44:45  Global If Index   : 258
+Mon Oper Grp     : None                 
+Srrp En Rtng     : Disabled             Hold time         : N/A
+MACSec           : N/A
+Port Id          : rvpls
+TOS Marking      : Untrusted            If Type           : IES
+SNTP B.Cast      : False                IES ID            : 300
+MAC Address      : 1c:f1:06:00:00:6a    Mac Accounting    : Disabled
+Ingress stats    : Disabled             IPv6 DAD          : Enabled
+ARP Timeout      : 14400s               IPv6 Nbr ReachTime: 30s
+ARP Retry Timer  : 5000ms               IPv6 stale time   : 14400s
+ARP Limit        : Disabled             IPv6 Nbr Limit    : Disabled
+ARP Threshold    : Disabled             IPv6 Nbr Threshold: Disabled
+ARP Limit Log On*: Disabled             IPv6 Nbr Log Only : Disabled
+ARP Learn Unsoli*: Disabled             ND Learn Unsolici*: None
+ARP Proactive Re*: Disabled             ND Proactive Refr*: None
+TCP MSS V4       : 0                    TCP MSS V6        : 0
+IP MTU           : (default)            
+IP Oper MTU      : 1500                 
+ARP Populate     : Disabled             Host Conn Verify  : Disabled
+SHCV pol IPv4    : None
+Cflowd (unicast) : None                 Cflowd (multicast): None
+LdpSyncTimer     : None                 
+LSR Load Balance : system               
+EGR Load Balance : both                 
+Vas If Type      : none                 
+TEID Load Balance: Disabled             
+SPI Load Balance : Disabled             
+uRPF Chk         : disabled             
+uRPF Ipv6 Chk    : disabled             
+uRPF Select VPRN : False                
+PTP HW Assist    : Disabled             
+Rx Pkts          : 101                  Rx Bytes          : 9292
+Rx V4 Pkts       : N/A                  Rx V4 Bytes       : N/A
+Rx V4 Help. Pkts : 0                    Rx V4 Help. Bytes : 0
+Rx V6 Pkts       : N/A                  Rx V6 Bytes       : N/A
+Tx Pkts          : 0                    Tx Bytes          : 0
+Tx V4 Pkts       : 0                    Tx V4 Bytes       : 0
+Tx V4 Discard Pk*: 0                    Tx V4 Discard Byt*: 0
+Tx V6 Pkts       : 0                    Tx V6 Bytes       : 0
+Tx V6 Discard Pk*: 0                    Tx V6 Discard Byt*: 0
+Tx DBcast Dis. P*: 0                    Tx DBcast Dis. By*: 0
+Mpls Rx Pkts     : 0                    Mpls Rx Bytes     : 0
+Mpls Tx Pkts     : 0                    Mpls Tx Bytes     : 0
+GRE Termination  : Disabled             
+V6 GRE Terminate : Disabled             
+Inter-AS selective ILM untrusted      : Disabled
+Untrusted default forwarding          : forward
+OperDCpuProtPlcy : N/A                  
+IP-Helper Address: Disabled             
+Ingress destination class lookup      : Disabled
+
+Proxy ARP Details
+Rem Proxy ARP    : Disabled             Local Proxy ARP   : Disabled
+Policies         : none                 
+
+Proxy Neighbor Discovery Details
+Local Pxy ND     : Disabled             
+Policies         : none                 
+
+DHCP no local server
+
+DHCP Details
+Description  : (Not Specified)
+Admin State      : Down                 Lease Populate    : 0
+Gi-Addr          : 198.18.1.2*          Gi-Addr as Src Ip : Disabled
+* = inferred gi-address from interface IP address
+
+Gi-Addr in rls   : No                   
+Action           : Keep                 Trusted           : Disabled
+
+DHCP Proxy Details
+Admin State      : Down                 
+Lease Time       : N/A                  
+Emul. Server     : Not configured       
+
+DHCP Relay Proxy Details
+Relay ucast      : none                 
+Siaddr ovr       : N/A                  
+FrcRnw w/o lease : not-allowed          
+
+Subscriber Authentication Details
+Auth Policy      : None                 
+
+DHCP6 Relay Details
+Description      : (Not Specified)
+Admin State      : Down                 Lease Populate    : 0
+Oper State       : Down                 Nbr Resolution    : Disabled
+If-Id Option     : None                 Remote Id         : Disabled
+Src Addr         : Not configured
+Python plcy      : (Not Specified)      
+Rcnfgr w/o lease : not-allowed          
+
+DHCP6 Server Details
+Admin State      : Down                 Max. Lease States : 8000
+
+ISA Tunnel redundant next-hop information
+Static Next-Hop  :                      
+Dynamic Next-Hop :                      
+
+ICMP Details
+Redirects        : Number - 100         Time (seconds)   - 10   
+Unreachables     : Number - 100         Time (seconds)   - 10   
+TTL Expired      : Number - 100         Time (seconds)   - 10   
+Parameter Problem: Number - 100         Time (seconds)   - 10   
+ICMP Mask Reply  : True
+
+ICMPv6 Details
+Packet Too Big   : Number - 100         Time (seconds)   - 10   
+Parameter Problem: Number - 100         Time (seconds)   - 10   
+Redirects        : Number - 100         Time (seconds)   - 10   
+Time Exceeded    : Number - 100         Time (seconds)   - 10   
+Unreachables     : Number - 100         Time (seconds)   - 10   
+
+IPCP Address Extension Details
+Peer IP Addr     : Not configured       
+Peer Pri DNS Addr: Not configured       
+Peer Sec DNS Addr: Not configured       
+
+Routed VPLS Details
+VPLS Name        : 301
+Binding Status   : Up                   
+Reason           : (Not Specified)
+Egr Reclass Plcy : 0                    
+Ing Filter       : none                 
+Ingr IPv6 Flt    : none                 
+EVPN Tunnel      : false                
+Sup BCast Domain : false                
+Evpn Tnl Bfd     : not-allowed          
+
+EVPN ARP
+Fld/GARP/UnknReq : true                 
+Learn-Dynamic    : true                 
+
+EVPN ND
+Learn-Dynamic    : true                 
+
+Network Domains Associated
+default
+
+-------------------------------------------------------------------------------
+Admin Groups
+-------------------------------------------------------------------------------
+No Matching Entries
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Srlg Groups
+-------------------------------------------------------------------------------
+No Matching Entries
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+QoS Queue-Group Redirection Details
+-------------------------------------------------------------------------------
+Ingress FP QGrp  : (none)               Egress Port QGrp  : (none)
+Ing FP QGrp Inst : (none)               Egr Port QGrp Inst: (none)
+ 
+-------------------------------------------------------------------------------
+Interface
+-------------------------------------------------------------------------------
+If Name          : system
+Admin State      : Up                   Oper (v4/v6)      : Up/Down
+Down Reason V6   : ifProtoOperDown
+Protocols        : ISIS
+IP Addr/mask     : 192.0.2.1/32         Address Type      : Primary
+IGP Inhibit      : Disabled             Broadcast Address : Host-ones
+HoldUp-Time      : 0                    Track Srrp Inst   : 0
+-------------------------------------------------------------------------------
+Details
+-------------------------------------------------------------------------------
+Description      : (Not Specified)
+If Index         : 1                    Virt. If Index    : 1
+Last Oper Chg    : 04/28/2026 19:44:15  Global If Index   : 256
+Lag Link Map Prof: none                 
+MACSec           : N/A
+Port Id          : system
+TOS Marking      : Trusted              If Type           : Network
+Egress Filter    : none                 Ingress Filter    : none
+Egr IPv6 Flt     : none                 Ingr IPv6 Flt     : none
+SNTP B.Cast      : False                Network QoS Policy: 1
+MAC Address      : 1c:f1:06:00:00:00    Mac Accounting    : Disabled
+Ingress stats    : Disabled             IPv6 DAD          : Enabled
+ARP Timeout      : 14400s               IPv6 Nbr ReachTime: 30s
+ARP Retry Timer  : 5000ms               IPv6 stale time   : 14400s
+ARP Limit        : Disabled             IPv6 Nbr Limit    : Disabled
+ARP Threshold    : Disabled             IPv6 Nbr Threshold: Disabled
+ARP Limit Log On*: Disabled             IPv6 Nbr Log Only : Disabled
+ARP Learn Unsoli*: Disabled             ND Learn Unsolici*: None
+ARP Proactive Re*: Disabled             ND Proactive Refr*: None
+TCP MSS V4       : 0                    TCP MSS V6        : 0
+IP MTU           : (default)            
+IP Oper MTU      : 1500                 
+ARP Populate     : Disabled             
+Cflowd (unicast) : None                 Cflowd (multicast): None
+LdpSyncTimer     : None                 Strip-Label       : Disabled
+LSR Load Balance : system               
+EGR Load Balance : both                 
+Vas If Type      : none                 
+TEID Load Balance: Disabled             
+SPI Load Balance : Disabled             
+uRPF Chk         : disabled             
+uRPF Ipv6 Chk    : disabled             
+uRPF Select VPRN : False                
+PTP HW Assist    : Disabled             
+Rx Pkts          : 0                    Rx Bytes          : 0
+Rx V4 Pkts       : N/A                  Rx V4 Bytes       : N/A
+Rx V4 Help. Pkts : 0                    Rx V4 Help. Bytes : 0
+Rx V6 Pkts       : N/A                  Rx V6 Bytes       : N/A
+Tx Pkts          : 0                    Tx Bytes          : 0
+Tx V4 Pkts       : 0                    Tx V4 Bytes       : 0
+Tx V4 Discard Pk*: 0                    Tx V4 Discard Byt*: 0
+Tx V6 Pkts       : 0                    Tx V6 Bytes       : 0
+Tx V6 Discard Pk*: 0                    Tx V6 Discard Byt*: 0
+Tx DBcast Dis. P*: 0                    Tx DBcast Dis. By*: 0
+Mpls Rx Pkts     : 0                    Mpls Rx Bytes     : 0
+Mpls Tx Pkts     : 0                    Mpls Tx Bytes     : 0
+GRE Termination  : Disabled             
+V6 GRE Terminate : Disabled             
+Inter-AS selective ILM untrusted      : Disabled
+Untrusted default forwarding          : forward
+OperDCpuProtPlcy : N/A                  
+IP-Helper Address: Disabled             
+Ingress destination class lookup      : Disabled
+
+Link Delay Details
+Operational Delay: Not specified        Delay selection   : static-preferred
+Static Delay     : Not specified        Dynamic Delay     : Not specified
+Link Measure Tmpl: Not specified
+
+Proxy ARP Details
+Rem Proxy ARP    : Disabled             Local Proxy ARP   : Disabled
+Policies         : none                 
+
+Proxy Neighbor Discovery Details
+Local Pxy ND     : Disabled             
+Policies         : none                 
+
+ICMP Details
+Redirects        : Number - 100         Time (seconds)   - 10   
+Unreachables     : Number - 100         Time (seconds)   - 10   
+TTL Expired      : Number - 100         Time (seconds)   - 10   
+Parameter Problem: Number - 100         Time (seconds)   - 10   
+ICMP Mask Reply  : True
+
+ICMPv6 Details
+Packet Too Big   : Number - 100         Time (seconds)   - 10   
+Parameter Problem: Number - 100         Time (seconds)   - 10   
+Redirects        : Number - 100         Time (seconds)   - 10   
+Time Exceeded    : Number - 100         Time (seconds)   - 10   
+Unreachables     : Number - 100         Time (seconds)   - 10   
+
+IPCP Address Extension Details
+Peer IP Addr     : Not configured       
+Peer Pri DNS Addr: Not configured       
+Peer Sec DNS Addr: Not configured       
+
+Network Domains Associated
+default
+
+-------------------------------------------------------------------------------
+Admin Groups
+-------------------------------------------------------------------------------
+No Matching Entries
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Srlg Groups
+-------------------------------------------------------------------------------
+No Matching Entries
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+QoS Queue-Group Redirection Details
+-------------------------------------------------------------------------------
+Ingress FP QGrp  : (none)               Egress Port QGrp  : (none)
+Ing FP QGrp Inst : (none)               Egr Port QGrp Inst: (none)
+ 
+-------------------------------------------------------------------------------
+Interface
+-------------------------------------------------------------------------------
+If Name          : to-core2
+Admin State      : Up                   Oper (v4/v6)      : Up/Down
+Down Reason V6   : ifProtoOperDown
+Protocols        : ISIS
+Unnumbered If    : system               
+-------------------------------------------------------------------------------
+Details
+-------------------------------------------------------------------------------
+Description      : (Not Specified)
+If Index         : 2                    Virt. If Index    : 2
+Last Oper Chg    : 04/28/2026 19:44:45  Global If Index   : 1
+Lag Link Map Prof: none                 
+Lag Per Link Hash
+Class            : 1                    Weight            : 1
+MACSec           : N/A
+Port Id          : lag-1
+TOS Marking      : Trusted              If Type           : Network
+Egress Filter    : none                 Ingress Filter    : none
+Egr IPv6 Flt     : none                 Ingr IPv6 Flt     : none
+SNTP B.Cast      : False                Network QoS Policy: 1
+MAC Address      : 1c:f1:06:00:01:41    Mac Accounting    : Disabled
+Ingress stats    : Disabled             IPv6 DAD          : Enabled
+ARP Timeout      : 14400s               IPv6 Nbr ReachTime: 30s
+ARP Retry Timer  : 5000ms               IPv6 stale time   : 14400s
+ARP Limit        : Disabled             IPv6 Nbr Limit    : Disabled
+ARP Threshold    : Disabled             IPv6 Nbr Threshold: Disabled
+ARP Limit Log On*: Disabled             IPv6 Nbr Log Only : Disabled
+ARP Learn Unsoli*: Disabled             ND Learn Unsolici*: None
+ARP Proactive Re*: Disabled             ND Proactive Refr*: None
+TCP MSS V4       : 0                    TCP MSS V6        : 0
+IP MTU           : (default)            
+IP Oper MTU      : 8922                 
+ARP Populate     : Disabled             
+Cflowd (unicast) : None                 Cflowd (multicast): None
+LdpSyncTimer     : None                 Strip-Label       : Disabled
+LSR Load Balance : system               
+EGR Load Balance : both                 
+Vas If Type      : none                 
+TEID Load Balance: Disabled             
+SPI Load Balance : Disabled             
+uRPF Chk         : disabled             
+uRPF Ipv6 Chk    : disabled             
+uRPF Select VPRN : False                
+PTP HW Assist    : Disabled             
+Rx Pkts          : 52                   Rx Bytes          : 3120
+Rx V4 Pkts       : N/A                  Rx V4 Bytes       : N/A
+Rx V4 Help. Pkts : 0                    Rx V4 Help. Bytes : 0
+Rx V6 Pkts       : N/A                  Rx V6 Bytes       : N/A
+Tx Pkts          : 120532               Tx Bytes          : 9583931
+Tx V4 Pkts       : 120532               Tx V4 Bytes       : 9583931
+Tx V4 Discard Pk*: 0                    Tx V4 Discard Byt*: 0
+Tx V6 Pkts       : 0                    Tx V6 Bytes       : 0
+Tx V6 Discard Pk*: 0                    Tx V6 Discard Byt*: 0
+Tx DBcast Dis. P*: 0                    Tx DBcast Dis. By*: 0
+Mpls Rx Pkts     : 2                    Mpls Rx Bytes     : 172
+Mpls Tx Pkts     : 105                  Mpls Tx Bytes     : 10040
+GRE Termination  : Disabled             
+V6 GRE Terminate : Disabled             
+Inter-AS selective ILM untrusted      : Disabled
+Untrusted default forwarding          : forward
+OperDCpuProtPlcy : _default-network-    
+                   policy               
+IP-Helper Address: Disabled             
+Ingress destination class lookup      : Disabled
+
+Link Delay Details
+Operational Delay: Not specified        Delay selection   : static-preferred
+Static Delay     : Not specified        Dynamic Delay     : Not specified
+Link Measure Tmpl: Not specified
+
+Proxy ARP Details
+Rem Proxy ARP    : Disabled             Local Proxy ARP   : Disabled
+Policies         : none                 
+
+Proxy Neighbor Discovery Details
+Local Pxy ND     : Disabled             
+Policies         : none                 
+
+ICMP Details
+Redirects        : Number - 100         Time (seconds)   - 10   
+Unreachables     : Number - 100         Time (seconds)   - 10   
+TTL Expired      : Number - 100         Time (seconds)   - 10   
+Parameter Problem: Number - 100         Time (seconds)   - 10   
+ICMP Mask Reply  : True
+
+ICMPv6 Details
+Packet Too Big   : Number - 100         Time (seconds)   - 10   
+Parameter Problem: Number - 100         Time (seconds)   - 10   
+Redirects        : Number - 100         Time (seconds)   - 10   
+Time Exceeded    : Number - 100         Time (seconds)   - 10   
+Unreachables     : Number - 100         Time (seconds)   - 10   
+
+IPCP Address Extension Details
+Peer IP Addr     : Not configured       
+Peer Pri DNS Addr: Not configured       
+Peer Sec DNS Addr: Not configured       
+
+Network Domains Associated
+default
+
+-------------------------------------------------------------------------------
+Admin Groups
+-------------------------------------------------------------------------------
+No Matching Entries
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Srlg Groups
+-------------------------------------------------------------------------------
+No Matching Entries
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+QoS Queue-Group Redirection Details
+-------------------------------------------------------------------------------
+Ingress FP QGrp  : (none)               Egress Port QGrp  : (none)
+Ing FP QGrp Inst : (none)               Egr Port QGrp Inst: (none)
+ 
+-------------------------------------------------------------------------------
+Interface
+-------------------------------------------------------------------------------
+If Name          : to-ixr-e2-11
+Admin State      : Up                   Oper (v4/v6)      : Up/Down
+Down Reason V6   : ifProtoOperDown
+Protocols        : ISIS
+Unnumbered If    : system               
+-------------------------------------------------------------------------------
+Details
+-------------------------------------------------------------------------------
+Description      : (Not Specified)
+If Index         : 3                    Virt. If Index    : 3
+Last Oper Chg    : 04/28/2026 19:44:45  Global If Index   : 2
+Lag Link Map Prof: none                 
+Lag Per Link Hash
+Class            : 1                    Weight            : 1
+MACSec           : N/A
+Port Id          : 1/x1/1/c3/1
+TOS Marking      : Trusted              If Type           : Network
+Egress Filter    : none                 Ingress Filter    : none
+Egr IPv6 Flt     : none                 Ingr IPv6 Flt     : none
+SNTP B.Cast      : False                Network QoS Policy: 1
+MAC Address      : aa:c1:ab:4f:e6:a1    Mac Accounting    : Disabled
+Ingress stats    : Disabled             IPv6 DAD          : Enabled
+ARP Timeout      : 14400s               IPv6 Nbr ReachTime: 30s
+ARP Retry Timer  : 5000ms               IPv6 stale time   : 14400s
+ARP Limit        : Disabled             IPv6 Nbr Limit    : Disabled
+ARP Threshold    : Disabled             IPv6 Nbr Threshold: Disabled
+ARP Limit Log On*: Disabled             IPv6 Nbr Log Only : Disabled
+ARP Learn Unsoli*: Disabled             ND Learn Unsolici*: None
+ARP Proactive Re*: Disabled             ND Proactive Refr*: None
+TCP MSS V4       : 0                    TCP MSS V6        : 0
+IP MTU           : (default)            
+IP Oper MTU      : 8922                 
+ARP Populate     : Disabled             
+Cflowd (unicast) : None                 Cflowd (multicast): None
+LdpSyncTimer     : None                 Strip-Label       : Disabled
+LSR Load Balance : system               
+EGR Load Balance : both                 
+Vas If Type      : none                 
+TEID Load Balance: Disabled             
+SPI Load Balance : Disabled             
+uRPF Chk         : disabled             
+uRPF Ipv6 Chk    : disabled             
+uRPF Select VPRN : False                
+PTP HW Assist    : Disabled             
+Rx Pkts          : 54                   Rx Bytes          : 3240
+Rx V4 Pkts       : N/A                  Rx V4 Bytes       : N/A
+Rx V4 Help. Pkts : 0                    Rx V4 Help. Bytes : 0
+Rx V6 Pkts       : N/A                  Rx V6 Bytes       : N/A
+Tx Pkts          : 96420                Tx Bytes          : 7667671
+Tx V4 Pkts       : 96420                Tx V4 Bytes       : 7667671
+Tx V4 Discard Pk*: 0                    Tx V4 Discard Byt*: 0
+Tx V6 Pkts       : 0                    Tx V6 Bytes       : 0
+Tx V6 Discard Pk*: 0                    Tx V6 Discard Byt*: 0
+Tx DBcast Dis. P*: 0                    Tx DBcast Dis. By*: 0
+Mpls Rx Pkts     : 202                  Mpls Rx Bytes     : 19392
+Mpls Tx Pkts     : 4                    Mpls Tx Bytes     : 344
+GRE Termination  : Disabled             
+V6 GRE Terminate : Disabled             
+Inter-AS selective ILM untrusted      : Disabled
+Untrusted default forwarding          : forward
+OperDCpuProtPlcy : _default-network-    
+                   policy               
+IP-Helper Address: Disabled             
+Ingress destination class lookup      : Disabled
+
+Link Delay Details
+Operational Delay: Not specified        Delay selection   : static-preferred
+Static Delay     : Not specified        Dynamic Delay     : Not specified
+Link Measure Tmpl: Not specified
+
+Proxy ARP Details
+Rem Proxy ARP    : Disabled             Local Proxy ARP   : Disabled
+Policies         : none                 
+
+Proxy Neighbor Discovery Details
+Local Pxy ND     : Disabled             
+Policies         : none                 
+
+ICMP Details
+Redirects        : Number - 100         Time (seconds)   - 10   
+Unreachables     : Number - 100         Time (seconds)   - 10   
+TTL Expired      : Number - 100         Time (seconds)   - 10   
+Parameter Problem: Number - 100         Time (seconds)   - 10   
+ICMP Mask Reply  : True
+
+ICMPv6 Details
+Packet Too Big   : Number - 100         Time (seconds)   - 10   
+Parameter Problem: Number - 100         Time (seconds)   - 10   
+Redirects        : Number - 100         Time (seconds)   - 10   
+Time Exceeded    : Number - 100         Time (seconds)   - 10   
+Unreachables     : Number - 100         Time (seconds)   - 10   
+
+IPCP Address Extension Details
+Peer IP Addr     : Not configured       
+Peer Pri DNS Addr: Not configured       
+Peer Sec DNS Addr: Not configured       
+
+Network Domains Associated
+default
+
+-------------------------------------------------------------------------------
+Admin Groups
+-------------------------------------------------------------------------------
+No Matching Entries
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Srlg Groups
+-------------------------------------------------------------------------------
+No Matching Entries
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+QoS Queue-Group Redirection Details
+-------------------------------------------------------------------------------
+Ingress FP QGrp  : (none)               Egress Port QGrp  : (none)
+Ing FP QGrp Inst : (none)               Egr Port QGrp Inst: (none)
+===============================================================================
+* indicates that the corresponding row element may have been truncated.
+
+[/]
+```
+
+show router interface summary:
+``` 
+
+===============================================================================
+Router Interface Summary
+===============================================================================
+Instance  Router Name               Interfaces  Admin-Up        Oper-Up(v4/v6)
+-------------------------------------------------------------------------------
+1         Base                      5           5               5/0
+===============================================================================
+```
+

@@ -1,6 +1,6 @@
 # nautobot_api_config.yaml
 api_endpoints:
-  # Extras App
+
   statuses:
     path: "/api/extras/statuses/"
     model_name: "extras.status"
@@ -10,9 +10,9 @@ api_endpoints:
       - name
       - slug
       - color
-      - content_types
+    static_params:
+      content_types: []
 
-  # DCIM App
   location_types:
     path: "/api/dcim/location-types/"
     model_name: "dcim.location_type"
@@ -21,6 +21,14 @@ api_endpoints:
     create_params:
       - name
       - slug
+      - nestable
+      - parent:
+          endpoint: location_types
+          lookup: name
+      - content_types:
+        resolve:
+          type: content_type
+          value: dcim.device
 
   locations:
     path: "/api/dcim/locations/"
@@ -29,9 +37,15 @@ api_endpoints:
       - name
     create_params:
       - name
-      - slug
-      - location_type
-      - status
+      - location_type:
+          endpoint: location_types
+          lookup: name
+      - parent:
+          endpoint: locations
+          lookup: name
+      - status:
+          endpoint: statuses
+          lookup: name
 
   manufacturers:
     path: "/api/dcim/manufacturers/"
@@ -50,28 +64,22 @@ api_endpoints:
     create_params:
       - name
       - slug
-      - manufacturer
-
-  # device_roles:
-  #   path: "/api/dcim/device-roles/"
-  #   model_name: "dcim.device_role"
-  #   get_params:
-  #     - name
-  #   create_params:
-  #     - name
-  #     - slug
-  #     - color
+      - manufacturer:
+          endpoint: manufacturers
+          lookup: name
 
   device_types:
     path: "/api/dcim/device-types/"
     model_name: "dcim.device_type"
     get_params:
-      - model # Note: pynautobot uses 'model', raw API uses 'model' or 'slug' for lookup
+      - model
     create_params:
-      - manufacturer
       - model
       - slug
       - part_number
+      - manufacturer:
+          endpoint: manufacturers
+          lookup: name
 
   devices:
     path: "/api/dcim/devices/"
@@ -80,11 +88,18 @@ api_endpoints:
       - name
     create_params:
       - name
-      - device_type
-      - device_role
-      - platform
-      - location
-      - status
+      - device_type:
+          endpoint: device_types
+          lookup: model
+      - platform:
+          endpoint: platforms
+          lookup: name
+      - location:
+          endpoint: locations
+          lookup: name
+      - status:
+          endpoint: statuses
+          lookup: name
       - serial
 
   interfaces:
@@ -94,12 +109,14 @@ api_endpoints:
       - device_id
       - name
     create_params:
-      - device
       - name
       - type
       - enabled
       - mtu
       - mac_address
+      - device:
+          endpoint: devices
+          lookup: name
 
   ip_addresses:
     path: "/api/ipam/ip-addresses/"
@@ -108,9 +125,12 @@ api_endpoints:
       - address
     create_params:
       - address
-      - assigned_object_type
-      - assigned_object_id
-      - status
+      - status:
+          endpoint: statuses
+          lookup: name
+      - assigned_object:
+          type_field: assigned_object_type
+          id_field: assigned_object_id
 
   cables:
     path: "/api/dcim/cables/"
@@ -119,8 +139,8 @@ api_endpoints:
       - termination_a_id
       - termination_b_id
     create_params:
-      - termination_a_type
-      - termination_a_id
-      - termination_b_type
-      - termination_b_id
-      - status
+      - termination_a
+      - termination_b
+      - status:
+          endpoint: statuses
+          lookup: name

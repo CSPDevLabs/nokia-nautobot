@@ -1,0 +1,26 @@
+2026-05-07 12:28:17,633 -  nornir.core -     INFO -        run() - Running task 'get_sros_info' with args {} on 1 hosts
+2026-05-07 13:50:54,023 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['facts']} on 1 hosts
+2026-05-07 13:50:54,029 - nornir.core.task -    ERROR -      start() - Host 'Nokia-Router-01': task 'napalm_get' failed with traceback:
+Traceback (most recent call last):
+  File "/home/pinrojas/nokia-nautobot/python-nornir-netmiko/.venv/lib64/python3.12/site-packages/nornir/core/task.py", line 98, in start
+    r = self.task(self, **self.params)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pinrojas/nokia-nautobot/python-nornir-netmiko/.venv/lib64/python3.12/site-packages/nornir_napalm/plugins/tasks/napalm_get.py", line 32, in napalm_get
+    device = task.host.get_connection(CONNECTION_NAME, task.nornir.config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pinrojas/nokia-nautobot/python-nornir-netmiko/.venv/lib64/python3.12/site-packages/nornir/core/inventory.py", line 476, in get_connection
+    self.open_connection(
+  File "/home/pinrojas/nokia-nautobot/python-nornir-netmiko/.venv/lib64/python3.12/site-packages/nornir/core/inventory.py", line 528, in open_connection
+    conn_obj.open(
+  File "/home/pinrojas/nokia-nautobot/python-nornir-netmiko/.venv/lib64/python3.12/site-packages/nornir_napalm/plugins/connections/__init__.py", line 55, in open
+    network_driver = get_network_driver(platform)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/pinrojas/nokia-nautobot/python-nornir-netmiko/.venv/lib64/python3.12/site-packages/napalm/base/__init__.py", line 99, in get_network_driver
+    raise ModuleImportError(
+napalm.base.exceptions.ModuleImportError: Cannot import "sros". Is the library installed?
+
+2026-05-07 13:51:15,945 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['facts']} on 1 hosts
+2026-05-07 13:53:51,408 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['facts']} on 1 hosts
+2026-05-07 13:54:04,986 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['facts']} on 1 hosts
+2026-05-07 13:55:31,818 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['facts']} on 1 hosts
+2026-05-07 13:56:48,492 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['facts']} on 1 hosts

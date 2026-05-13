@@ -1,0 +1,6 @@
+---
+Nokia-Router-01:
+  hostname: 172.23.20.22
+  platform: sros  # Correct platform for the napalm-sros driver
+  groups:
+    - nokia_devices

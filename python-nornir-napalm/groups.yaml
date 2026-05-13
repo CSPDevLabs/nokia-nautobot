@@ -1,0 +1,8 @@
+---
+nokia_devices:
+  platform: sros
+  connection_options:
+    napalm:
+      extras:
+        optional_args:
+          port: 830

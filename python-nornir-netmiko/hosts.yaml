@@ -1,0 +1,8 @@
+---
+Nokia-Router-01:
+  hostname: 172.23.20.22
+  groups:
+    - nokia_devices
+  platform: nokia_sros  # Matches device_type in Netmiko
+  data:
+    role: core

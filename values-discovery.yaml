@@ -41,7 +41,7 @@ nautobot:
     # -- Nautobot image name, common to all deployments
     repository: "pinrojas/nautobot"
     # -- Nautobot image tag, common to all deployments (note that 2.4 is still supported)
-    tag: "3.0-py3.13"
+    tag: "3.0-py3.13-nokia"
     # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/), common to all deployments valid values: `Always`, `Never`, or `IfNotPresent`
     pullPolicy: "Never"
     # -- ([]string) List of secret names to be used as image [pull secrets](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/), common to all deployments
@@ -199,7 +199,8 @@ nautobot:
   # -- ([]string) List of names of existing ConfigMaps containing extra env vars for Nautobot server pods
   extraEnvVarsCM: []
   # -- ([]string) List of names of existing Secrets containing extra env vars for Nautobot server pods
-  extraEnvVarsSecret: []
+  extraEnvVarsSecret:
+    - "nokia-netconf-creds"
   # -- ([]Volume) List of additional volumes for the Nautobot server pod
   extraVolumes: []
   # -- ([]VolumeMount) List of additional volumeMounts for the Nautobot containers
@@ -392,18 +393,14 @@ nautobot:
         DATABASES["default"]["OPTIONS"] = {"charset": "utf8mb4"}
     SECRET_KEY = os.getenv("NAUTOBOT_SECRET_KEY", ")4tli6$akj1a1li#kc+_!fpgk49=fkp-)f9tp6xn6*^83-zem7")
     INSTALLATION_METRICS_ENABLED = is_truthy(os.getenv("NAUTOBOT_INSTALLATION_METRICS_ENABLED", "True"))
-    PLUGINS = ["nautobot_device_onboarding", "nautobot_ssot"]    
-    PLUGINS_CONFIG = {
-        "nautobot_device_onboarding": {
-            "credentials": {
-                "username": "admin",
-                "password": "NokiaSros1!"
-            },
-            "nautobot_ssot": {
-                "enable_infoblox": True
-            }            
-        }
-    }    
+    PLUGINS = ["nautobot_device_onboarding", "nautobot_ssot",  "nautobot_golden_config"]    
+    # PLUGINS_CONFIG = {
+    #     "nautobot_device_onboarding": {
+    #         "nautobot_ssot": {
+    #             "enable_infoblox": True
+    #         }            
+    #     }
+    # }    
   # -- [[ref](https://docs.nautobot.com/projects/core/en/stable/configuration/)] Use custom configuration defined in an existing ConfigMap<sup>[1](#notes)</sup>
   configCM: ""
 
@@ -642,11 +639,11 @@ celery:
   # @default -- See values.yaml
   resources:
     requests:
-      cpu: "400m"
-      memory: "1G"
+      cpu: "2000m"
+      memory: "4G"
     limits:
-      cpu: "3328m"
-      memory: "6656M"
+      cpu: "6328m"
+      memory: "12656M"
 
   # -- (PodSecurityContext) [[ref](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod)] Nautobot Celery Worker Pods Security Context
   # @default -- See values.yaml
@@ -742,7 +739,8 @@ celery:
   # -- ([]string) List of names of existing ConfigMaps containing extra env vars for Nautobot Celery Worker pods
   extraEnvVarsCM: []
   # -- ([]string) List of names of existing Secrets containing extra env vars for Nautobot Celery Worker pods
-  extraEnvVarsSecret: []
+  extraEnvVarsSecret:
+    - "nokia-netconf-creds"
   # -- ([]Volume) List of additional volumes for the Nautobot Celery Worker pod
   extraVolumes: []
   # -- ([]VolumeMount) List of additional volumeMounts for the Nautobot Celery Worker containers
