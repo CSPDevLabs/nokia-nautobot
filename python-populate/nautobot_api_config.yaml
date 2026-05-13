@@ -10,8 +10,7 @@ api_endpoints:
       - name
       - slug
       - color
-    static_params:
-      content_types: []
+
 
   location_types:
     path: "/api/dcim/location-types/"
@@ -69,6 +68,10 @@ api_endpoints:
       - manufacturer:
           endpoint: manufacturers
           lookup: name
+      - network_driver
+      - napalm_driver
+      - network_driver_mappings
+
 
   device_types:
     path: "/api/dcim/device-types/"

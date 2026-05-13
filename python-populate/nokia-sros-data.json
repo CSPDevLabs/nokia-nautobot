@@ -1,46 +1,46 @@
 {
   "location_types": [
     {
-      "name": "Region",
-      "slug": "region",
-      "nestable": true
+        "name": "Region",
+        "slug": "region",
+        "nestable": true
     },
     {
-      "name": "Country",
-      "slug": "country",
-      "parent": "Region",
-      "nestable": true
+        "name": "Country",
+        "slug": "country",
+        "parent": "Region",
+        "nestable": true
     },
     {
-      "name": "State",
-      "slug": "state",
-      "parent": "Country",
-      "nestable": true
+        "name": "State",
+        "slug": "state",
+        "parent": "Country",
+        "nestable": true
     },
     {
-      "name": "City",
-      "slug": "city",
-      "parent": "State",
-      "nestable": true
+        "name": "City",
+        "slug": "city",
+        "parent": "State",
+        "nestable": true
     },
     {
-      "name": "Building",
-      "slug": "building",
-      "parent": "City",
-      "nestable": true
+        "name": "Building",
+        "slug": "building",
+        "parent": "City",
+        "nestable": true
     },
     {
-      "name": "Floor",
-      "slug": "floor",
-      "parent": "Building",
-      "nestable": true
+        "name": "Floor",
+        "slug": "floor",
+        "parent": "Building",
+        "nestable": true
     },
     {
-      "name": "Room",
-      "slug": "room",
-      "parent": "Floor",
-      "nestable": true,
-        "content_types": ["dcim.device"]
+        "name": "Room",
+        "slug": "room",
+        "parent": "Floor",
+        "nestable": true,
+            "content_types": ["dcim.device"]
     }
   ],
 
@@ -97,25 +97,35 @@
 
   "manufacturers": [
     {
-      "name": "Nokia",
-      "slug": "nokia"
+        "name": "Nokia",
+        "slug": "nokia"
     }
   ],
 
   "platforms": [
     {
-      "name": "SROS",
-      "slug": "sros",
-      "manufacturer": "Nokia"
+        "name": "SROS",
+        "slug": "sros",
+        "manufacturer": "Nokia",
+        "network_driver": "nokia_sros",
+        "napalm_driver": "sros",        
+        "network_driver_mappings": {
+            "ansible": "community.network.sros",
+            "napalm": "sros",
+            "netmiko": "nokia_sros",
+            "netutils_parser": "nokia_sros",
+            "ntc_templates": "nokia_sros",
+            "pyats": "sros"
+        }      
     }
   ],
 
   "device_types": [
     {
-      "model": "7250 IXR-e2",
-      "slug": "7250-ixr-e2",
-      "manufacturer": "Nokia",
-      "part_number": "7250 IXR-e2"
+        "model": "7250 IXR-e2",
+        "slug": "7250-ixr-e2",
+        "manufacturer": "Nokia",
+        "part_number": "7250 IXR-e2"
     }
   ]
 }
