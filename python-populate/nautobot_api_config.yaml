@@ -28,7 +28,9 @@ api_endpoints:
       - content_types:
         resolve:
           type: content_type
-          value: dcim.device
+          value: 
+            - dcim.device
+            - dcim.rack
 
   locations:
     path: "/api/dcim/locations/"

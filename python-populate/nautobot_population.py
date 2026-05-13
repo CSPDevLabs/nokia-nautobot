@@ -78,6 +78,8 @@ class NautobotAPIClient:
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
+        # Cache for content types to avoid repeated API calls
+        self._content_type_cache = {}
 
     def request(self, method, endpoint, params=None, data=None, obj_id=None):
         ep = self.api[endpoint]
@@ -111,18 +113,28 @@ class NautobotAPIClient:
     def delete(self, endpoint, obj_id):
         return self.request("DELETE", endpoint, obj_id=obj_id)
 
-    def resolve_value(nb, resolver_type, value):
+    def resolve_value(self, resolver_type, value):
         if resolver_type == "content_type":
-            # try API-based resolution if available
+            if value in self._content_type_cache:
+                return self._content_type_cache[value]
+
             try:
-                data = nb.request("GET", "content_types", params={})
-                for ct in data.get("results", []):
-                    key = f"{ct['app_label']}.{ct['model']}"
-                    if key == value:
-                        return ct["id"]
-            except Exception:
+                # First, try to get all content types if cache is empty
+                if not self._content_type_cache:
+                    data = self.request("GET", "content_types", params={})
+                    for ct in data.get("results", []):
+                        key = f"{ct['app_label']}.{ct['model']}"
+                        self._content_type_cache[key] = ct["id"]
+                
+                if value in self._content_type_cache:
+                    return self._content_type_cache[value]
+                
+                raise RuntimeError(f"Content type '{value}' not found.")
+
+            except Exception as e:
+                logger.error(f"Error resolving content type '{value}': {e}", exc_info=True)
                 raise RuntimeError(
-                    "Content type endpoint not available; cannot resolve dynamically"
+                    f"Content type endpoint not available or resolution failed for '{value}': {e}"
                 )
 
         raise RuntimeError(f"Unknown resolver type: {resolver_type}")
@@ -184,12 +196,10 @@ def process_objects(nb, endpoint, objects, remove=False):
             # -----------------
             # Dict param
             # -----------------
-
-            
             elif isinstance(param, dict):
                 field, cfg = next(iter(param.items()))
 
-                # Case 1: simple field declared as dict
+                # Case 1: simple field declared as dict (e.g., parent: None)
                 if cfg is None:
                     if field == "parent" and obj.get("parent"):
                         payload[field] = created[obj["parent"]]["id"]
@@ -197,6 +207,7 @@ def process_objects(nb, endpoint, objects, remove=False):
                         payload[field] = obj[field]
                     continue
 
+                # Case 2: Field requires resolution (e.g., endpoint/lookup)
 
                 if "endpoint" in cfg and "lookup" in cfg:
                     value = obj.get(field)
@@ -207,20 +218,50 @@ def process_objects(nb, endpoint, objects, remove=False):
                         for v in value:
                             ref = nb.get(cfg["endpoint"], {cfg["lookup"]: v})
                             if not ref:
+                                # FIX: Use !r to safely represent string variables in f-string
                                 raise RuntimeError(
-                                    f"Missing dependency: {cfg['endpoint']} "
-                                    f"{cfg['lookup']}={v}"
+                                    f"Missing dependency: {cfg['endpoint']!r} "
+                                    f"{cfg['lookup']!r}={v!r}"
                                 )
                             ids.append(ref["id"])
                         payload[field] = ids
                     else:
                         ref = nb.get(cfg["endpoint"], {cfg["lookup"]: value})
                         if not ref:
+                            # FIX: Use !r to safely represent string variables in f-string
                             raise RuntimeError(
-                                f"Missing dependency: {cfg['endpoint']} "
-                                f"{cfg['lookup']}={value}"
+                                f"Missing dependency: {cfg['endpoint']!r} "
+                                f"{cfg['lookup']!r}={value!r}"
                             )
                         payload[field] = ref["id"]
+                    continue
+
+                # Case 3: Field requires 'resolve' logic (e.g., content_types)
+                if "resolve" in cfg:
+                    resolver_cfg = cfg["resolve"]
+                    resolver_type = resolver_cfg["type"]
+                    
+                    resolved_ids = []
+                    # Prioritize values from the initial_data.json object
+                    if field in obj and obj[field] is not None:
+                        items_to_resolve = obj[field]
+                        # Ensure it's iterable, even if a single string is provided in JSON
+                        if not isinstance(items_to_resolve, list):
+                            items_to_resolve = [items_to_resolve]
+                    # Fallback to static value(s) from api_config.yaml if not in object
+                    elif "value" in resolver_cfg:
+                        items_to_resolve = resolver_cfg["value"]
+                        # Ensure it's iterable, even if a single string is provided in YAML
+                        if not isinstance(items_to_resolve, list):
+                            items_to_resolve = [items_to_resolve]
+                    else:
+                        items_to_resolve = [] # No values to resolve
+
+                    for item_to_resolve in items_to_resolve:
+                        resolved_ids.append(nb.resolve_value(resolver_type, item_to_resolve))
+                    
+                    if resolved_ids: # Only add to payload if there are values
+                        payload[field] = resolved_ids
                     continue
 
                 raise RuntimeError(f"Invalid create_param config: {param}")
@@ -246,6 +287,14 @@ def main():
 
     api_cfg = yaml.safe_load(open(args.api_config_file))
     data = json.load(open(args.initial_data_file))
+
+    # Ensure 'content_types' endpoint is defined in api_cfg for resolution
+    if 'content_types' not in api_cfg['api_endpoints']:
+        api_cfg['api_endpoints']['content_types'] = {
+            'path': '/api/extras/content-types/', # Standard Nautobot path
+            'model_name': 'extras.contenttype',
+            'get_params': ['app_label', 'model'] # Not strictly used for this resolution, but good practice
+        }
 
     nb = NautobotAPIClient(
         args.nautobot_url,
