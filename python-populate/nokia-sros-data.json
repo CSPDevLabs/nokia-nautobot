@@ -104,9 +104,10 @@
 
   "platforms": [
     {
-        "name": "SROS",
-        "slug": "sros",
+        "name": "TiMOS",
+        "slug": "timos",
         "manufacturer": "Nokia",
+        "description": "Nokia SROS Network Operating System",
         "network_driver": "nokia_sros",
         "napalm_driver": "sros",        
         "network_driver_mappings": {
@@ -127,5 +128,19 @@
         "manufacturer": "Nokia",
         "part_number": "7250 IXR-e2"
     }
+  ],    
+  "roles": [
+    {
+        "name": "DIA Aggregation",
+        "content_types": [
+            "dcim.device"
+        ]
+    },
+    {
+        "name": "DIA Core",
+        "content_types": [
+            "dcim.device"
+        ]
+    }    
   ]
 }

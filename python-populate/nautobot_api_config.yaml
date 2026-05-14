@@ -86,6 +86,20 @@ api_endpoints:
           endpoint: manufacturers
           lookup: name
 
+  roles:
+    path: /api/extras/roles/
+    model_name: extras.role
+    get_params:
+      - name
+    create_params:
+      - name
+      - content_types:
+        resolve:
+          type: content_type
+          value: 
+            - dcim.device
+            - dcim.rack
+
   devices:
     path: "/api/dcim/devices/"
     model_name: "dcim.device"
