@@ -30,6 +30,7 @@ api_endpoints:
           value: 
             - dcim.device
             - dcim.rack
+            - dcim.rackgroup            
 
   locations:
     path: "/api/dcim/locations/"
@@ -99,67 +100,69 @@ api_endpoints:
           value: 
             - dcim.device
             - dcim.rack
+            - dcim.rackgroup
 
-  devices:
-    path: "/api/dcim/devices/"
-    model_name: "dcim.device"
+  rack-groups:
+    path: /api/dcim/rack-groups
+    model_name: dcim.rackgroup
     get_params:
       - name
     create_params:
-      - name
-      - device_type:
-          endpoint: device_types
-          lookup: model
-      - platform:
-          endpoint: platforms
-          lookup: name
+      - name   
       - location:
-          endpoint: locations
+          endpoint: location
+          lookup: name
+
+
+  racks:
+    path: /api/dcim/racks
+    model_name: dcim.rack
+    get_params:
+      - name
+    create_params:
+      - name   
+      - location:
+          endpoint: location
           lookup: name
       - status:
           endpoint: statuses
           lookup: name
-      - serial
+      - rack-groups:    
+          endpoint: rack-groups
+          lookup: name
 
-  interfaces:
-    path: "/api/dcim/interfaces/"
-    model_name: "dcim.interface"
+
+  secrets-groups-associations:
+    path: /api/extras/secrets-groups-associations
+    model_name: extras.secretsgroupassociation
     get_params:
-      - device_id
+      - access_type
+      - secret_type
+      - secrets_group
+      - secret            
+    create_params:
+      - access_type
+      - secret_type
+      - secrets_group:
+          endpoint: secrets-group
+          lookup: name      
+      - secret:
+          endpoint: secrets
+          lookup: name 
+
+  secrets-groups:
+    path: /api/extras/secrets-groups
+    model_name: extras.secretsgroup
+    get_params:
+      - name
+    create_params:
+      - name     
+
+  secrets:
+    path: /api/extras/secrets
+    model_name: extras.secrets
+    get_params:
       - name
     create_params:
       - name
-      - type
-      - enabled
-      - mtu
-      - mac_address
-      - device:
-          endpoint: devices
-          lookup: name
-
-  ip_addresses:
-    path: "/api/ipam/ip-addresses/"
-    model_name: "ipam.ipaddress"
-    get_params:
-      - address
-    create_params:
-      - address
-      - status:
-          endpoint: statuses
-          lookup: name
-      - assigned_object:
-          type_field: assigned_object_type
-          id_field: assigned_object_id
-
-  cables:
-    path: "/api/dcim/cables/"
-    model_name: "dcim.cable"
-    get_params:
-      - termination_a_id
-      - termination_b_id
-    create_params:
-      - termination_a
-      - termination_b
-      - status:
-          endpoint: statuses
-          lookup: name
+      - provider

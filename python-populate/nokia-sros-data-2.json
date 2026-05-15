@@ -1,0 +1,212 @@
+{
+  "location_types": [
+    {
+        "name": "Region",
+        "slug": "region",
+        "nestable": true
+    },
+    {
+        "name": "Country",
+        "slug": "country",
+        "parent": "Region",
+        "nestable": true
+    },
+    {
+        "name": "State",
+        "slug": "state",
+        "parent": "Country",
+        "nestable": true
+    },
+    {
+        "name": "City",
+        "slug": "city",
+        "parent": "State",
+        "nestable": true
+    },
+    {
+        "name": "Building",
+        "slug": "building",
+        "parent": "City",
+        "nestable": true
+    },
+    {
+        "name": "Floor",
+        "slug": "floor",
+        "parent": "Building",
+        "nestable": true
+    },
+    {
+        "name": "Room",
+        "slug": "room",
+        "parent": "Floor",
+        "nestable": true,
+            "content_types": [
+                "dcim.device",
+                "dcim.rack",
+                "dcim.rackgroup"
+            ]
+    }
+  ],
+
+  "locations": [
+    {
+        "name": "Americas",
+        "slug": "americas",
+        "location_type": "Region",
+        "status": "Active"
+    },
+    {
+        "name": "United States",
+        "slug": "united-states",
+        "location_type": "Country",
+        "parent": "Americas",
+        "status": "Active"
+    },
+    {
+        "name": "Texas",
+        "slug": "texas",
+        "location_type": "State",
+        "parent": "United States",
+        "status": "Active"
+    },
+    {
+        "name": "Coppell (TX75019)",
+        "slug": "coppell-tx75019",
+        "location_type": "City",
+        "parent": "Texas",
+        "status": "Active"
+    },
+    {
+        "name": "3201 Olympus Blvd",
+        "slug": "3201-olympus-blvd",
+        "location_type": "Building",
+        "parent": "Coppell (TX75019)",
+        "status": "Active"
+    },
+    {
+        "name": "1st Floor",
+        "slug": "1st-floor",
+        "location_type": "Floor",
+        "parent": "3201 Olympus Blvd",
+        "status": "Active"
+    },
+    {
+        "name": "401",
+        "slug": "401",
+        "location_type": "Room",
+        "parent": "1st Floor",
+        "status": "Active"
+    }
+  ],
+
+  "manufacturers": [
+    {
+        "name": "Nokia",
+        "slug": "nokia"
+    }
+  ],
+
+  "platforms": [
+    {
+        "name": "TiMOS",
+        "slug": "timos",
+        "manufacturer": "Nokia",
+        "description": "Nokia SROS Network Operating System",
+        "network_driver": "nokia_sros",
+        "napalm_driver": "sros",        
+        "network_driver_mappings": {
+            "ansible": "community.network.sros",
+            "napalm": "sros",
+            "netmiko": "nokia_sros",
+            "netutils_parser": "nokia_sros",
+            "ntc_templates": "nokia_sros",
+            "pyats": "sros"
+        }      
+    }
+  ],
+
+  "device_types": [
+    {
+        "model": "7250 IXR-e2",
+        "slug": "7250-ixr-e2",
+        "manufacturer": "Nokia",
+        "part_number": "7250 IXR-e2"
+    }
+  ],    
+  "roles": [
+    {
+        "name": "DIA Aggregation",
+        "content_types": [
+            "dcim.device"
+        ]
+    },
+    {
+        "name": "DIA Core",
+        "content_types": [
+            "dcim.device"
+        ]
+    }    
+  ],
+  "secrets":[
+    {
+        "name": "nokia-sros-password",
+        "description": "Nokia SROS Passsword SRSIM",
+        "provider": "environment-variable",
+        "parameters": {
+            "variable": "NOKIA_NETCONF_PASS"
+        }        
+    },
+    {
+        "name": "nokia-sros-user",
+        "description": "Nokia SROS User SRSIM",
+        "provider": "environment-variable",
+        "parameters": {
+            "variable": "NOKIA_NETCONF_USER"
+        }        
+    }    
+  ],
+  "secrets-groups":[
+    {
+        "name": "nokia-sros-secret",
+        "description": "Nokia SROS Secret Group SRSIM"
+    }
+  ],  
+  "secrets-groups-associations":[
+    {
+        "access_type": "Generic",
+        "secret_type": "password",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-password"
+    },
+    {
+        "access_type": "NETCONF",
+        "secret_type": "password",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-password"
+    },
+    {
+        "access_type": "SSH",
+        "secret_type": "password",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-password"
+    },
+    {
+        "access_type": "Generic",
+        "secret_type": "username",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-user"
+    },      
+    {
+        "access_type": "NETCONF",
+        "secret_type": "username",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-user"
+    },
+    {
+        "access_type": "SSH",
+        "secret_type": "username",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-user"
+    }        
+  ]    
+}
