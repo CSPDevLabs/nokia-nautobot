@@ -40,11 +40,11 @@
         "slug": "room",
         "parent": "Floor",
         "nestable": true,
-            "content_types": [
-                "dcim.device",
-                "dcim.rack",
-                "dcim.rackgroup"
-            ]
+        "content_types": [
+            "dcim.device",
+            "dcim.rack",
+            "dcim.rackgroup"
+        ]
     }
   ],
 

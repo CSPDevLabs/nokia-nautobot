@@ -1,9 +1,71 @@
 # nautobot_api_config.yaml
 api_endpoints:
 
+  secrets:
+    path: /api/extras/secrets/
+    model_name: extras.secrets
+    lookup:
+      fields:
+        - name    
+    get_params:
+      - name
+    create_params:
+      - name
+      - description
+      - provider
+      - parameters
+
+  secrets-groups:
+    path: /api/extras/secrets-groups/
+    model_name: extras.secretsgroup
+    lookup:
+      fields:
+        - name        
+    get_params:
+      - name
+    create_params:
+      - name
+      - description      
+
+  secrets-groups-associations:
+    path: /api/extras/secrets-groups-associations/
+    model_name: extras.secretsgroupassociation
+    lookup:
+      fields:
+        - secrets_group
+        - access_type
+        - secret_type
+        - secret
+
+    get_params:
+      - secrets_group
+      - access_type
+      - secret_type
+      - secret
+    create_params:
+      - access_type
+      - secret_type
+      - secrets_group:
+          endpoint: secrets-groups
+          lookup: name
+      - secret:
+          endpoint: secrets
+          lookup: name
+
+
+  content_types:
+    path: "/api/extras/content-types/"
+    model_name: "extras.contenttype"   
+    get_params:
+      - app_label
+      - model
+
   statuses:
     path: "/api/extras/statuses/"
     model_name: "extras.status"
+    lookup:
+      fields:
+        - name      
     get_params:
       - name
     create_params:
@@ -15,6 +77,9 @@ api_endpoints:
   location_types:
     path: "/api/dcim/location-types/"
     model_name: "dcim.location_type"
+    lookup:
+      fields:
+        - name       
     get_params:
       - name
     create_params:
@@ -35,6 +100,9 @@ api_endpoints:
   locations:
     path: "/api/dcim/locations/"
     model_name: "dcim.location"
+    lookup:
+      fields:
+        - name       
     get_params:
       - name
     create_params:
@@ -52,6 +120,9 @@ api_endpoints:
   manufacturers:
     path: "/api/dcim/manufacturers/"
     model_name: "dcim.manufacturer"
+    lookup:
+      fields:
+        - name       
     get_params:
       - name
     create_params:
@@ -61,6 +132,9 @@ api_endpoints:
   platforms:
     path: "/api/dcim/platforms/"
     model_name: "dcim.platform"
+    lookup:
+      fields:
+        - name       
     get_params:
       - name
     create_params:
@@ -77,6 +151,9 @@ api_endpoints:
   device_types:
     path: "/api/dcim/device-types/"
     model_name: "dcim.device_type"
+    lookup:
+      fields:
+        - model       
     get_params:
       - model
     create_params:
@@ -90,6 +167,9 @@ api_endpoints:
   roles:
     path: /api/extras/roles/
     model_name: extras.role
+    lookup:
+      fields:
+        - name       
     get_params:
       - name
     create_params:
@@ -97,14 +177,13 @@ api_endpoints:
       - content_types:
         resolve:
           type: content_type
-          value: 
-            - dcim.device
-            - dcim.rack
-            - dcim.rackgroup
 
   rack-groups:
     path: /api/dcim/rack-groups
     model_name: dcim.rackgroup
+    lookup:
+      fields:
+        - name       
     get_params:
       - name
     create_params:
@@ -117,6 +196,9 @@ api_endpoints:
   racks:
     path: /api/dcim/racks
     model_name: dcim.rack
+    lookup:
+      fields:
+        - name       
     get_params:
       - name
     create_params:
@@ -132,37 +214,3 @@ api_endpoints:
           lookup: name
 
 
-  secrets-groups-associations:
-    path: /api/extras/secrets-groups-associations
-    model_name: extras.secretsgroupassociation
-    get_params:
-      - access_type
-      - secret_type
-      - secrets_group
-      - secret            
-    create_params:
-      - access_type
-      - secret_type
-      - secrets_group:
-          endpoint: secrets-group
-          lookup: name      
-      - secret:
-          endpoint: secrets
-          lookup: name 
-
-  secrets-groups:
-    path: /api/extras/secrets-groups
-    model_name: extras.secretsgroup
-    get_params:
-      - name
-    create_params:
-      - name     
-
-  secrets:
-    path: /api/extras/secrets
-    model_name: extras.secrets
-    get_params:
-      - name
-    create_params:
-      - name
-      - provider

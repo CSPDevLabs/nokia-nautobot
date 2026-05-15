@@ -97,15 +97,39 @@ class NautobotAPIClient:
             timeout=30,
         )
 
+        log_extra = {
+            "method": method,
+            "endpoint": endpoint,
+            "url": url,
+            "status_code": r.status_code,
+        }
+
+        try:
+            response_body = r.json()
+        except Exception:
+            response_body = r.text
+
+        logger.info(
+            "API response",
+            extra={**log_extra, "response": response_body},
+        )
+
         if method == "DELETE":
-            return r.status_code == 204
+            success = r.status_code == 204
+            if not success:
+                raise RuntimeError(f"DELETE failed: {r.status_code}")
+            return True
 
         r.raise_for_status()
-        return r.json()
+        return response_body
 
     def get(self, endpoint, params):
-        r = self.request("GET", endpoint, params=params)
-        return r["results"][0] if r.get("results") else None
+        # If no params are provided, caller must handle matching
+        r = self.request("GET", endpoint, params=params or {})
+        results = r.get("results", [])
+        if not params:
+            return results
+        return results[0] if results else None
 
     def create(self, endpoint, data):
         return self.request("POST", endpoint, data=data)
@@ -142,30 +166,55 @@ class NautobotAPIClient:
 # -----------------------
 # Generic Object Engine
 # -----------------------
+
+def build_composite_key(obj, fields):
+    return "|".join(str(obj.get(f, "")).strip() for f in fields)
+
+
 def process_objects(nb, endpoint, objects, remove=False):
     if isinstance(objects, dict):
         objects = [objects]
 
     ep = nb.api[endpoint]
-    lookup_key = ep["get_params"][0]
+
+    # lookup_key = ep["get_params"][0]
     created = {}
+    lookup_fields = ep.get("lookup", {}).get("fields", ep["get_params"])
+
+    parents = {}
+    for o in objects:
+        key = build_composite_key(o, lookup_fields)
+        parents[key] = o.get("parent")    
 
     # Build hierarchy
-    parents = {
-        o.get(lookup_key): o.get("parent")
-        for o in objects
-        if isinstance(o, dict) and o.get(lookup_key)
-    }
+    # parents = {
+    #     o.get(lookup_key): o.get("parent")
+    #     for o in objects
+    #     if isinstance(o, dict) and o.get(lookup_key)
+    # }
 
     order = topo_sort(parents)
     if remove:
         order = reversed(order)
 
     for key in order:
-        obj = next(o for o in objects if o.get(lookup_key) == key)
-        entity_name = obj.get("name", key)
+        # obj = next(o for o in objects if o.get(lookup_key) == key)
+        obj = next(
+            o for o in objects
+            if build_composite_key(o, lookup_fields) == key
+        )
 
-        existing = nb.get(endpoint, {lookup_key: key})
+        missing = [f for f in lookup_fields if f not in obj]
+        if missing:
+            raise RuntimeError(
+                f"{endpoint}: object missing lookup field(s): {missing}. Object={obj}"
+            )
+
+        query = {f: obj.get(f) for f in lookup_fields if obj.get(f) is not None}
+        existing = None
+        if ep.get("lookup"):
+            existing = nb.get(endpoint, query)     
+        entity_name = obj.get("name", key)
 
         if remove:
             if existing:
@@ -267,8 +316,22 @@ def process_objects(nb, endpoint, objects, remove=False):
                 raise RuntimeError(f"Invalid create_param config: {param}")
 
         new = nb.create(endpoint, payload)
+        if not new or "id" not in new:
+            logger.error(
+                "Create failed",
+                extra={"endpoint": endpoint, "payload": payload},
+            )
+            raise RuntimeError("Create failed")
+
         created[key] = new
-        logger.info("Created", extra={"endpoint": endpoint, "entity": entity_name})
+        logger.info(
+            "Created",
+            extra={
+                "endpoint": endpoint,
+                "entity": entity_name,
+                "id": new["id"],
+            },
+        )
 
     return created
 
@@ -287,14 +350,6 @@ def main():
 
     api_cfg = yaml.safe_load(open(args.api_config_file))
     data = json.load(open(args.initial_data_file))
-
-    # Ensure 'content_types' endpoint is defined in api_cfg for resolution
-    if 'content_types' not in api_cfg['api_endpoints']:
-        api_cfg['api_endpoints']['content_types'] = {
-            'path': '/api/extras/content-types/', # Standard Nautobot path
-            'model_name': 'extras.contenttype',
-            'get_params': ['app_label', 'model'] # Not strictly used for this resolution, but good practice
-        }
 
     nb = NautobotAPIClient(
         args.nautobot_url,
