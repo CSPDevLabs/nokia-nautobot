@@ -101,7 +101,8 @@ endef
 .PHONY: try-nautobot
 try-nautobot: check-tools cluster-up deploy-nautobot port-forward-nautobot
 
-
+.PHONY: rebuild-image
+rebuild-image: stop-port-forward-nautobot reload-image port-forward-nautobot
 
 .PHONY: cluster-up
 cluster-up: $(KIND_CONFIG_REAL_LOC) ## Bring up the KinD cluster
@@ -244,20 +245,40 @@ deploy-nautobot: install-nautobot-deps ## Build image, load into kind, deploy Na
 	@echo "--> NAUTOBOT: Loading image into kind cluster"
 	@$(KIND) load docker-image $(NAUTOBOT_IMAGE) --name $(KIND_CLUSTER_NAME)
 
-	@echo "--> NAUTOBOT: Loading image into kind cluster"
+	@echo "--> NAUTOBOT: Loading Secrets"
 	@$(KUBECTL) apply -f $(NAUTOBOT_SECRETS)
 
 	@echo "--> NAUTOBOT: Installing Helm release"
 	@$(HELM) install $(NAUTOBOT_RELEASE) $(NAUTOBOT_CHART) -f $(NAUTOBOT_VALUES)
 
+
+.PHONY: reload-image
+reload-image:
+	@echo "--> NAUTOBOT: Remove nautobot deployment"
+	@$(HELM) delete $(NAUTOBOT_RELEASE)
+
+	@echo "--> NAUTOBOT: Building Docker image"
+	@docker build -t $(NAUTOBOT_IMAGE) . --no-cache
+
+	@echo "--> NAUTOBOT: Loading image into kind cluster"
+	@$(KIND) load docker-image $(NAUTOBOT_IMAGE) --name $(KIND_CLUSTER_NAME)
+
+	@echo "--> NAUTOBOT: Installing Helm release"
+	@$(HELM) install $(NAUTOBOT_RELEASE) $(NAUTOBOT_CHART) -f $(NAUTOBOT_VALUES)
+
+
 .PHONY: port-forward-nautobot
 port-forward-nautobot: ## Run Nautobot port-forward in background
+	@echo "--> NAUTOBOT: Waiting for service endpoints to be ready..."
+	@$(KUBECTL) wait --namespace default --for=condition=ready pod -l app.kubernetes.io/name=nautobot --timeout=120s
+
 	@echo "--> NAUTOBOT: Starting port-forward in background"
 	@nohup $(KUBECTL) port-forward \
 		--namespace default svc/nautobot-default \
 		--address 0.0.0.0 8443:443 \
 		> /tmp/nautobot-portforward.log 2>&1 & echo $$! > $(PORT_FORWARD_PID_FILE)
-	@echo "--> NAUTOBOT: Port-forward PID stored in $(PORT_FORWARD_PID_FILE)"		
+	@echo "--> NAUTOBOT: Port-forward PID stored in $(PORT_FORWARD_PID_FILE)"
+
 
 .PHONY: stop-port-forward-nautobot
 stop-port-forward-nautobot:
