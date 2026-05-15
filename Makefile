@@ -54,6 +54,14 @@ K9S_VERSION ?= v0.32.4
 YQ_VERSION ?= v4.42.1
 CLAB_VERSION ?= 0.72.0
 
+NAUTOBOT_IMAGE ?= pinrojas/nautobot:3.0-py3.13-nokia
+NAUTOBOT_RELEASE ?= nautobot
+NAUTOBOT_CHART ?= nautobot/nautobot
+NAUTOBOT_VALUES ?= values-discovery.yaml
+NAUTOBOT_SECRETS ?= nokia-secrets.yaml
+
+PORT_FORWARD_PID_FILE ?= /tmp/nautobot-portforward.pid
+
 ### Tool Locations
 ### ---------------------------------------------------------------------------|
 KIND_SRC ?= https://kind.sigs.k8s.io/dl/$(KIND_VERSION)/kind-$(OS)-$(ARCH)
@@ -91,7 +99,7 @@ endef
 
 
 .PHONY: try-nautobot
-try-nautobot: check-tools cluster-up 
+try-nautobot: check-tools cluster-up deploy-nautobot port-forward-nautobot
 
 
 
@@ -221,3 +229,42 @@ $(KIND_CONFIG_REAL_LOC):
 	@echo "  serviceSubnet: \"10.96.0.0/12\"" >> $(KIND_CONFIG_REAL_LOC)
 
 
+.PHONY: install-nautobot-deps
+install-nautobot-deps: ## Install Redis/Postgres + add Helm repo
+	@echo "--> NAUTOBOT: Installing dependencies (Redis/Postgres + Helm repo)"
+	@$(KUBECTL) apply -f postg-redis.yaml
+	@$(HELM) repo add nautobot https://nautobot.github.io/helm-charts/ || true
+	@$(HELM) repo update
+
+.PHONY: deploy-nautobot
+deploy-nautobot: install-nautobot-deps ## Build image, load into kind, deploy Nautobot
+	@echo "--> NAUTOBOT: Building Docker image"
+	@docker build -t $(NAUTOBOT_IMAGE) . --no-cache
+
+	@echo "--> NAUTOBOT: Loading image into kind cluster"
+	@$(KIND) load docker-image $(NAUTOBOT_IMAGE) --name $(KIND_CLUSTER_NAME)
+
+	@echo "--> NAUTOBOT: Loading image into kind cluster"
+	@$(KUBECTL) apply -f $(NAUTOBOT_SECRETS)
+
+	@echo "--> NAUTOBOT: Installing Helm release"
+	@$(HELM) install $(NAUTOBOT_RELEASE) $(NAUTOBOT_CHART) -f $(NAUTOBOT_VALUES)
+
+.PHONY: port-forward-nautobot
+port-forward-nautobot: ## Run Nautobot port-forward in background
+	@echo "--> NAUTOBOT: Starting port-forward in background"
+	@nohup $(KUBECTL) port-forward \
+		--namespace default svc/nautobot-default \
+		--address 0.0.0.0 8443:443 \
+		> /tmp/nautobot-portforward.log 2>&1 & echo $$! > $(PORT_FORWARD_PID_FILE)
+	@echo "--> NAUTOBOT: Port-forward PID stored in $(PORT_FORWARD_PID_FILE)"		
+
+.PHONY: stop-port-forward-nautobot
+stop-port-forward-nautobot:
+	@echo "--> NAUTOBOT: Stopping port-forward"
+	@if [ -f $(PORT_FORWARD_PID_FILE) ]; then \
+		kill $$(cat $(PORT_FORWARD_PID_FILE)) || true ;\
+		rm -f $(PORT_FORWARD_PID_FILE) ;\
+	else \
+		echo "No PID file found" ;\
+	fi	

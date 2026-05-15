@@ -100,6 +100,20 @@ echo "Secret Key: $(kubectl get secret --namespace default nautobot-env -o jsonp
 
 The `values-ext-db.yaml` file contains critical overrides for resource allocation, external database connections, and Nautobot's internal configuration.
 
+## 7. Device Onboarding App (values-discovery.yaml)
+
+You need to build the image with the forked opensource repos including Nokia templates and settings.
+Run the new values in `values-discovery.yaml` using the just created image.
+Before all of that, destroy nautobot deployment:
+
+```bash
+helm delete nautobot
+docker build -t pinrojas/nautobot:3.0-py3.13-nokia . --no-cache
+./tools/kind load docker-image pinrojas/nautobot:3.0-py3.13-nokia --name nokia-nautobot
+helm install nautobot nautobot/nautobot -f values-discovery.yaml
+```
+
+
 ## 8. Troubleshooting
 
 ### 8.1 Checking reachibility to an IP and port
