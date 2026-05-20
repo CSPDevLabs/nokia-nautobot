@@ -393,14 +393,15 @@ nautobot:
         DATABASES["default"]["OPTIONS"] = {"charset": "utf8mb4"}
     SECRET_KEY = os.getenv("NAUTOBOT_SECRET_KEY", ")4tli6$akj1a1li#kc+_!fpgk49=fkp-)f9tp6xn6*^83-zem7")
     INSTALLATION_METRICS_ENABLED = is_truthy(os.getenv("NAUTOBOT_INSTALLATION_METRICS_ENABLED", "True"))
-    PLUGINS = ["nautobot_device_onboarding", "nautobot_ssot",  "nautobot_golden_config"]    
-    # PLUGINS_CONFIG = {
-    #     "nautobot_device_onboarding": {
-    #         "nautobot_ssot": {
-    #             "enable_infoblox": True
-    #         }            
-    #     }
-    # }    
+    PLUGINS = ["nautobot_device_onboarding", "nautobot_ssot",  "nautobot_golden_config"]
+    PLUGINS_CONFIG = {
+      "nautobot_plugin_nornir": {
+        "nornir_settings": {
+            "credentials": "nautobot_plugin_nornir.plugins.credentials.nautobot_secrets.CredentialsNautobotSecrets"
+        }    
+      } 
+    }           
+ 
   # -- [[ref](https://docs.nautobot.com/projects/core/en/stable/configuration/)] Use custom configuration defined in an existing ConfigMap<sup>[1](#notes)</sup>
   configCM: ""
 

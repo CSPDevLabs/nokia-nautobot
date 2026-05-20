@@ -40,7 +40,11 @@
         "slug": "room",
         "parent": "Floor",
         "nestable": true,
-            "content_types": ["dcim.device"]
+        "content_types": [
+            "dcim.device",
+            "dcim.rack",
+            "dcim.rackgroup"
+        ]
     }
   ],
 
@@ -104,8 +108,8 @@
 
   "platforms": [
     {
-        "name": "TiMOS",
-        "slug": "timos",
+        "name": "nokia_sros",
+        "slug": "nokiasros0",
         "manufacturer": "Nokia",
         "description": "Nokia SROS Network Operating System",
         "network_driver": "nokia_sros",
@@ -142,5 +146,67 @@
             "dcim.device"
         ]
     }    
-  ]
+  ],
+  "secrets":[
+    {
+        "name": "nokia-sros-password",
+        "description": "Nokia SROS Passsword SRSIM",
+        "provider": "environment-variable",
+        "parameters": {
+            "variable": "NOKIA_NETCONF_PASS"
+        }        
+    },
+    {
+        "name": "nokia-sros-user",
+        "description": "Nokia SROS User SRSIM",
+        "provider": "environment-variable",
+        "parameters": {
+            "variable": "NOKIA_NETCONF_USER"
+        }        
+    }    
+  ],
+  "secrets-groups":[
+    {
+        "name": "nokia-sros-secret",
+        "description": "Nokia SROS Secret Group SRSIM"
+    }
+  ],  
+  "secrets-groups-associations":[
+    {
+        "access_type": "Generic",
+        "secret_type": "password",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-password"
+    },
+    {
+        "access_type": "NETCONF",
+        "secret_type": "password",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-password"
+    },
+    {
+        "access_type": "SSH",
+        "secret_type": "password",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-password"
+    },
+    {
+        "access_type": "Generic",
+        "secret_type": "username",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-user"
+    },      
+    {
+        "access_type": "NETCONF",
+        "secret_type": "username",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-user"
+    },
+    {
+        "access_type": "SSH",
+        "secret_type": "username",
+        "secrets_group": "nokia-sros-secret",
+        "secret": "nokia-sros-user"
+    }        
+  ]    
 }

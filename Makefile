@@ -104,6 +104,9 @@ try-nautobot: check-tools cluster-up deploy-nautobot port-forward-nautobot
 .PHONY: rebuild-image
 rebuild-image: stop-port-forward-nautobot reload-image port-forward-nautobot
 
+.PHONY:restart-nautobot
+restart-nautobot: stop-port-forward-nautobot restart-nautobot-deploy port-forward-nautobot
+
 .PHONY: cluster-up
 cluster-up: $(KIND_CONFIG_REAL_LOC) ## Bring up the KinD cluster
 	@echo "--> KIND: Ensuring control-plane exists"
@@ -266,6 +269,13 @@ reload-image:
 	@echo "--> NAUTOBOT: Installing Helm release"
 	@$(HELM) install $(NAUTOBOT_RELEASE) $(NAUTOBOT_CHART) -f $(NAUTOBOT_VALUES)
 
+.PHONY: restart-nautobot-deploy
+restart-nautobot-deploy:
+	@echo "--> NAUTOBOT: Remove nautobot deployment"
+	@$(HELM) delete $(NAUTOBOT_RELEASE)
+
+	@echo "--> NAUTOBOT: Installing Helm release"
+	@$(HELM) install $(NAUTOBOT_RELEASE) $(NAUTOBOT_CHART) -f $(NAUTOBOT_VALUES)
 
 .PHONY: port-forward-nautobot
 port-forward-nautobot: ## Run Nautobot port-forward in background
