@@ -104,8 +104,8 @@ nautobot:
   # @default -- See values.yaml
   resources:
     requests:
-      cpu: "300m"
-      memory: "1280M"
+      cpu: "600m"
+      memory: "2600M"
     limits:
       cpu: "2000m"
       memory: "16704M"
